@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexohub - Calculadora</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-br from-indigo-900 via-purple-900 to-slate-900 min-h-screen flex items-center justify-center p-4">
+
+    <!-- Contenedor Principal con estilo Glassmorphism -->
+    <div class="bg-white/10 backdrop-blur-md border border-white/20 p-8 rounded-3xl shadow-2xl w-full max-w-md text-white">
+        
+        <!-- Título -->
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-extrabold tracking-wider bg-gradient-to-r from-cyan-400 to-pink-500 bg-clip-text text-transparent">
+                NEXOHUB
+            </h1>
+            <p class="text-sm text-gray-300 mt-1">Calculadora Interactiva</p>
+        </div>
+
+        <!-- Pantalla de Resultados -->
+        <div class="bg-black/30 border border-white/10 rounded-2xl p-4 mb-6 text-right">
+            <span class="text-xs text-gray-400 block">Resultado</span>
+            <span id="display" class="text-4xl font-mono font-semibold tracking-wider text-cyan-300">0</span>
+        </div>
+
+        <!-- Botonera Estilo Grid -->
+        <div class="grid grid-cols-4 gap-3">
+            <button onclick="clearDisplay()" class="bg-red-500/80 hover:bg-red-600 transition p-4 rounded-xl font-bold col-span-2 shadow-lg">AC</button>
+            <button onclick="appendValue('/')" class="bg-white/10 hover:bg-white/20 transition p-4 rounded-xl font-bold text-cyan-400">/</button>
+            <button onclick="appendValue('*')" class="bg-white/10 hover:bg-white/20 transition p-4 rounded-xl font-bold text-cyan-400">×</button>
+
+            <button onclick="appendValue('7')" class="bg-white/10 hover:bg-white/20 transition p-4 rounded-xl font-bold">7</button>
+            <button onclick="appendValue('8')" class="bg-white/10 hover:bg-white/20 transition p-4 rounded-xl font-bold">8</button>
+            <button onclick="appendValue('9')" class="bg-white/10 hover:bg-white/20 transition p-4 rounded-xl font-bold">9</button>
+            <button onclick="appendValue('-')" class="bg-white/10 hover:bg-white/20 transition p-4 rounded-xl font-bold text-cyan-400">-</button>
+
+            <button onclick="appendValue('4')" class="bg-white/10 hover:bg-white/20 transition p-4 rounded-xl font-bold">4</button>
+            <button onclick="appendValue('5')" class="bg-white/10 hover:bg-white/20 transition p-4 rounded-xl font-bold">5</button>
+            <button onclick="appendValue('6')" class="bg-white/10 hover:bg-white/20 transition p-4 rounded-xl font-bold">6</button>
+            <button onclick="appendValue('+')" class="bg-white/10 hover:bg-white/20 transition p-4 rounded-xl font-bold text-cyan-400">+</button>
+
+            <button onclick="appendValue('1')" class="bg-white/10 hover:bg-white/20 transition p-4 rounded-xl font-bold">1</button>
+            <button onclick="appendValue('2')" class="bg-white/10 hover:bg-white/20 transition p-4 rounded-xl font-bold">2</button>
+            <button onclick="appendValue('3')" class="bg-white/10 hover:bg-white/20 transition p-4 rounded-xl font-bold">3</button>
+            <button onclick="calculateResult()" class="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 transition p-4 rounded-xl font-bold row-span-2 flex items-center justify-center shadow-lg">=</button>
+
+            <button onclick="appendValue('0')" class="bg-white/10 hover:bg-white/20 transition p-4 rounded-xl font-bold col-span-2">0</button>
+            <button onclick="appendValue('.')" class="bg-white/10 hover:bg-white/20 transition p-4 rounded-xl font-bold">.</button>
+        </div>
+    </div>
+
+    <!-- Lógica de la Calculadora -->
+    <script>
+        const display = document.getElementById('display');
+
+        function appendValue(val) {
+            if (display.innerText === '0' && val !== '.') {
+                display.innerText = val;
+            } else {
+                display.innerText += val;
+            }
+        }
+
+        function clearDisplay() {
+            display.innerText = '0';
+        }
+
+        function calculateResult() {
+            try {
+                // Evaluamos de forma segura la expresión matemática básica
+                display.innerText = eval(display.innerText.replace('×', '*'));
+            } catch (error) {
+                display.innerText = 'Error';
+                setTimeout(clearDisplay, 1500);
+            }
+        }
+    </script>
+</body>
+</html>
