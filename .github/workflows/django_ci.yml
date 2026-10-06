@@ -5,6 +5,17 @@ on:
     branches: [ "main", "master" ]
   workflow_dispatch:
 
+# 1. Añadir permisos necesarios para GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 2. Configurar concurrencia para evitar conflictos de despliegue
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
@@ -25,3 +36,25 @@ jobs:
       - name: Verificar proyecto Django
         run: |
           python manage.py check
+
+      # --- NUEVOS PASOS PARA DESPLEGAR EN GITHUB PAGES ---
+      
+      - name: Configurar GitHub Pages
+        uses: actions/configure-pages@v4
+
+      - name: Subir artefacto para Pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.' # Toma los archivos de la raíz (donde está tu index.html)
+
+      - name: Desplegar en GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+      - name: Mostrar enlace directo
+        run: |
+          echo "======================================"
+          echo "¡Página web desplegada con éxito!"
+          echo "Haz clic en el siguiente enlace para abrirla:"
+          echo "${{ steps.deployment.outputs.page_url }}"
+          echo "======================================"
